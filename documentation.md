@@ -42,18 +42,18 @@ Don’t use arrow functions as callbacks in your functions to render views. With
 ```tsx
 // bad
 function Todo() {
-	function addTodo() {
-		// ...
-	}
-	return (<Pressable onPress={() => addTodo()} />)
+  function addTodo() {
+    // ...
+  }
+  return (<Pressable onPress={() => addTodo()} />)
 }
 
 // good
 function Todo() {
-	function addTodo() {
-		// ...
-	}
-	return (<Pressable onPress={addTodo} />)
+  function addTodo() {
+    // ...
+  }
+  return (<Pressable onPress={addTodo} />)
 }
 ```
 
@@ -75,7 +75,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 function ProfileListScreen() {
   const isFocused = useIsFocused();
-	//  return list;
+  //  return list;
 }
 ```
 
@@ -103,15 +103,15 @@ For example,
 const data = [
   {id: 1, value: 1},
   // ...
-	{id: 10000, value: 10000}
+  {id: 10000, value: 10000}
 ];
 
 const memoizeData = useMemo(() => {
   const filterData = data.filter(...);
-	const mappedData = filterData.map(...);
+  const mappedData = filterData.map(...);
   // ...
   const finalValue = mappedData.reduce(...);
- 	return finalValue;
+  return finalValue;
 }, [data]);
 ```
 
@@ -128,16 +128,16 @@ const todoCallback = useCallback(
   },
   [a, b],
 );
-...
+// ...
 return(<Button onPress={todoCallback}/>);
-...
+// ...
 ```
 
 Return a callback which depends on its parameter. 
 
 ```tsx
 const onChangeValue = useCallback(
-	(fieldId) => (newValue) => {
+  (fieldId) => (newValue) => {
     handleChangeValue(fieldId, newValue)
   },
   []
@@ -148,8 +148,8 @@ It is useful when passing callbacks to child component to prevent unnecessary re
 
 ```tsx
 export default function Maker() {
- const handleTakeMaker = useCallback(() => {
-		// making point
+  const handleTakeMaker = useCallback(() => {
+    // making point
   }, []);
   return (
     <View style={styles.container}>
@@ -181,8 +181,6 @@ export const MemoizedMovie = React.memo(Movie, areEqual);
 // export const MemoizedMovie = React.memo(Movie);
 ```
 
-
-
 ### 3. Image
 
 #### 3.1. Use smaller resolution images
@@ -211,11 +209,11 @@ Highly recommending to use [react-native-fast-image](https://github.com/DylanVan
 
 ```tsx
 <Flatlist
-	data={data}
+  data={data}
   renderItem={renderItem}
   onEndReachedThreshold={0.2}
-	onEndReached={onEndReached}
-  ...
+  onEndReached={onEndReached}
+  // ...
   refreshing={refreshing}
   onRefresh={onRefresh}
 />
@@ -247,7 +245,7 @@ Therefore, we should use `InteractionManager` to avoid broken frames.
 
 ```tsx
 InteractionManager.runAfterInteractions(() => {
-	// ...
+  // ...
 });
 ```
 
@@ -257,12 +255,12 @@ This would run the animation during the next layout
 
 ```tsx
 const AnotherComponent = () => {
-	// ...
-	function handleClick() {
+  // ...
+  function handleClick() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-		// ...
+    // ...
   }
-	// ...
+  // ...
 }
 ```
 
@@ -280,7 +278,7 @@ Using `nativeDriver` to send animations over the native bridge before the animat
 
 ```tsx
 Animated.timing(opacity, {
-	toValue: 1,
+  toValue: 1,
   duration: 300,
   useNativeDriver: true,
 }).start();
