@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeScreen, FlatlistScreen} from '../screens';
+import {HomeScreen, ImageScreen, ImageListScreen} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,9 +15,14 @@ export default function MyStack() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="FlatlistScreen"
-          component={FlatlistScreen}
-          options={{title: 'Flatlist Screen'}}
+          name="ImageListScreen"
+          component={ImageListScreen}
+          options={{title: 'List Image Items'}}
+        />
+        <Stack.Screen
+          name="ImageScreen"
+          component={ImageScreen}
+          options={{title: 'Load and Caching Images'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

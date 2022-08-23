@@ -19,7 +19,7 @@ We use console to debug a mobile app in development environment. After that, we 
 
 `ScrollView` is simple to implement. However, it renders all children at once. Therefore, we should use `Flatlist`, `SectionList` with huge data.
 
-```react
+```jsx
 // bad
 <ScrollView>
   {items.map(item => {
@@ -39,21 +39,21 @@ We use console to debug a mobile app in development environment. After that, we 
 
 Don’t use arrow functions as callbacks in your functions to render views. With use arrow function,  each renders generates a new instance of function and finally the child component which used it will be rendered because of detecting new props.
 
-```react
+```tsx
 // bad
 function Todo() {
-	function addTodo() {
-		// ...
-	}
-	return (<Pressable onPress={() => addTodo()} />)
+  function addTodo() {
+    // ...
+  }
+  return (<Pressable onPress={() => addTodo()} />)
 }
 
 // good
 function Todo() {
-	function addTodo() {
-		// ...
-	}
-	return (<Pressable onPress={addTodo} />)
+  function addTodo() {
+    // ...
+  }
+  return (<Pressable onPress={addTodo} />)
 }
 ```
 
@@ -68,7 +68,7 @@ Heavy component such as huge lists will lead to high memories on JS thread. That
 
 Fortunately, the `useIsFocused` hook provides its status.
 
-```react
+```tsx
 import { useIsFocused } from '@react-navigation/native';
 
 // ...
@@ -91,7 +91,7 @@ function ProfileListScreen() {
 
 Returns a **memoized** value of a function. It should be used only when we want perform expensive computations such as handling huge data, object...
 
-```react
+```tsx
 const memoizedResult = useMemo(() => compute(a, b), [a, b]);
 ```
 
@@ -99,7 +99,7 @@ when next renderings, the dependencies don't change, then `useMemo()` *doesn't i
 
 For example,
 
-```react
+```tsx
 const data = [
   {id: 1, value: 1},
   // ...

@@ -1,2 +1,3 @@
-export * from "./HomeScreen"
-export * from "./FlatlistScreen"
+export * from './HomeScreen';
+export * from './ImageScreen';
+export * from './ImageListScreen';

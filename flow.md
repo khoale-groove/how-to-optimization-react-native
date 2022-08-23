@@ -200,5 +200,5 @@ https://viblo.asia/p/tim-hieu-ve-proguard-trong-android-924lJ30N5PM#_5-only-obfu
   Need: 
    - make sure 60 FPS and native look and feel to your apps.
    - Deliver smooth UI performance by default
-  Structure RN framework: javacript only run one thread.
+  Structure RN framework: only run one thread.
 2. 
