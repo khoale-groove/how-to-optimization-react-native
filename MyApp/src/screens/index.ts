@@ -1,3 +1,3 @@
 export * from './HomeScreen';
-export * from './ImageScreen';
-export * from './ImageListScreen';
+export * from './ImageConfigScreen';
+export * from './ImageDemoScreen';

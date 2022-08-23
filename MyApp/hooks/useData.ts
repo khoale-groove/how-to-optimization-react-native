@@ -1,4 +1,5 @@
 export type DataType = 'original' | 'small' | 'medium' | 'large';
+export const dataTypeValues = ['small', 'medium', 'large', 'original'] as const;
 
 export const useData = (type: DataType = 'original') => {
   const symbols = {
