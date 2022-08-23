@@ -19,7 +19,7 @@ We use console to debug a mobile app in development environment. After that, we 
 
 `ScrollView` is simple to implement. However, it renders all children at once. Therefore, we should use `Flatlist`, `SectionList` with huge data.
 
-```react
+```tsx
 // bad
 <ScrollView>
   {items.map(item => {
@@ -39,7 +39,7 @@ We use console to debug a mobile app in development environment. After that, we 
 
 Don’t use arrow functions as callbacks in your functions to render views. With use arrow function,  each renders generates a new instance of function and finally the child component which used it will be rendered because of detecting new props.
 
-```react
+```tsx
 // bad
 function Todo() {
 	function addTodo() {
@@ -68,7 +68,7 @@ Heavy component such as huge lists will lead to high memories on JS thread. That
 
 Fortunately, the `useIsFocused` hook provides its status.
 
-```react
+```tsx
 import { useIsFocused } from '@react-navigation/native';
 
 // ...
@@ -91,7 +91,7 @@ function ProfileListScreen() {
 
 Returns a **memoized** value of a function. It should be used only when we want perform expensive computations such as handling huge data, object...
 
-```react
+```tsx
 const memoizedResult = useMemo(() => compute(a, b), [a, b]);
 ```
 
@@ -99,7 +99,7 @@ when next renderings, the dependencies don't change, then `useMemo()` *doesn't i
 
 For example,
 
-```react
+```tsx
 const data = [
   {id: 1, value: 1},
   // ...
@@ -121,7 +121,7 @@ const memoizeData = useMemo(() => {
 
 Returns a **memoized** callback. Similar to `useMemo`, it used  but it returns a memoized callback. It only is changed if one of dependencies has changed.
 
-```react
+```tsx
 const todoCallback = useCallback(
   () => {
     doSomething(a, b)
@@ -135,7 +135,7 @@ return(<Button onPress={todoCallback}/>);
 
 Return a callback which depends on its parameter. 
 
-```react
+```tsx
 const onChangeValue = useCallback(
 	(fieldId) => (newValue) => {
     handleChangeValue(fieldId, newValue)
@@ -146,7 +146,7 @@ const onChangeValue = useCallback(
 
 It is useful when passing callbacks to child component to prevent unnecessary renders.
 
-```react
+```tsx
 export default function Maker() {
  const handleTakeMaker = useCallback(() => {
 		// making point
@@ -163,7 +163,7 @@ export default function Maker() {
 
 `memo` only checks for prop changes. This means that React will skip rendering the component, and reuse the last rendered result.
 
-```react
+```tsx
 function Movie({ title }) {
   return (
     <Text>Movie title: {title}</Text>
@@ -209,7 +209,7 @@ Highly recommending to use [react-native-fast-image](https://github.com/DylanVan
 
 #### 4.1. Infinite scroll pagination and pull to refresh
 
-```react
+```tsx
 <Flatlist
 	data={data}
   renderItem={renderItem}
@@ -245,7 +245,7 @@ The JavaScript thread is responsible for controlling navigator animations. When 
 
 Therefore, we should use `InteractionManager` to avoid broken frames.
 
-```react
+```tsx
 InteractionManager.runAfterInteractions(() => {
 	// ...
 });
@@ -255,7 +255,7 @@ InteractionManager.runAfterInteractions(() => {
 
 This would run the animation during the next layout
 
-```react
+```tsx
 const AnotherComponent = () => {
 	// ...
 	function handleClick() {
@@ -268,7 +268,7 @@ const AnotherComponent = () => {
 
 Make sure the flag has to be set for works on Android.
 
-```react
+```tsx
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -278,7 +278,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 Using `nativeDriver` to send animations over the native bridge before the animation starts on the screen. it reduces workload on `JS thread` and move to `UI thread`.
 
-```react
+```tsx
 Animated.timing(opacity, {
 	toValue: 1,
   duration: 300,
@@ -294,7 +294,7 @@ The problem with controlled inputs in React Native is that on slower devices or 
 
 For example,
 
-```react
+```tsx
 function UncontrolledInputs() {
   const [text, onTextChange] = React.useState('Controlled inputs');
   return (
