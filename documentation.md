@@ -1,4 +1,4 @@
-## How to optimize a mobile app made by React Native
+## How to optimize performance a react native app
 
 ### Overview
 
@@ -10,7 +10,7 @@
 
 #### 1.1. Remove all console.log statements
 
-We use console to debug a mobile app in development environment. After that, we have to remove for performing the app in production.
+We used console to debug a mobile app in development environment. After that, we have to remove for performing the app in production.
 
 - use **lint code** to detect all statements
 - use babel plugins to remove all statements from production such as `babel-plugin-transform-remove-console`

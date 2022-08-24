@@ -11,6 +11,9 @@ export function HomeScreen({navigation}: RootStackScreenProps<'HomeScreen'>) {
   const moveToImageConfigScreen = useCallback(() => {
     navigation.navigate('ImageConfigScreen');
   }, [navigation]);
+  const moveToReanimatedScreen = useCallback(() => {
+    navigation.navigate('ReanimatedScreen');
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -21,6 +24,10 @@ export function HomeScreen({navigation}: RootStackScreenProps<'HomeScreen'>) {
       <SimpleButton
         title="optimize large list"
         onPress={moveToFlatlistScreen}
+      />
+      <SimpleButton
+        title="Reanimated 2 Example"
+        onPress={moveToReanimatedScreen}
       />
     </View>
   );

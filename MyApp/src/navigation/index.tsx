@@ -12,6 +12,7 @@ import {
   ImageConfigScreen,
   ImageDemoScreen,
   FlatlistScreen,
+  ReanimatedScreen,
 } from '../screens';
 import {colors} from '../configs';
 import {DataType} from '../../hooks/useData';
@@ -26,6 +27,7 @@ export type RootParamList = {
   HomeScreen: undefined;
   FlatlistScreen: undefined;
   ImageConfigScreen: undefined;
+  ReanimatedScreen: undefined;
   ImageDemoScreen: ImageDemoParamsList | undefined;
 };
 export type RootStackScreenProps<Screen extends keyof RootParamList> =
@@ -69,6 +71,13 @@ export default function MyStack() {
           component={FlatlistScreen}
           options={{
             title: 'Flatlist',
+          }}
+        />
+        <Stack.Screen
+          name="ReanimatedScreen"
+          component={ReanimatedScreen}
+          options={{
+            title: 'Reanimated Example',
           }}
         />
       </Stack.Navigator>
