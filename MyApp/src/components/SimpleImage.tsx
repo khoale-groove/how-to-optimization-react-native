@@ -3,33 +3,39 @@ import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {SimpleText} from './SimpleText';
 
+const isEqual = require('react-fast-compare');
 const {width: screenWidth} = Dimensions.get('screen');
 
 interface Props {
   item: {id: string; uri: string};
+  showRender?: boolean;
 }
 
 export function SimpleImage(props: Props) {
-  const {item} = props;
+  const {item, showRender = true} = props;
   const [countRender, setCountRender] = useState(0);
 
   useEffect(() => {
-    setCountRender(c => c + 1);
+    if (showRender) {
+      setCountRender(c => c + 1);
+    }
     return () => {};
   }, [props]);
 
   return (
     <View style={styles.item}>
       <FastImage source={{uri: item.uri}} style={styles.image} />
-      <View style={styles.absolute}>
-        <SimpleText preset="h5" isBold text={countRender} />
-      </View>
+      {showRender && (
+        <View style={styles.absolute}>
+          <SimpleText preset="h5" isBold text={countRender.toString()} />
+        </View>
+      )}
     </View>
   );
 }
 
 function areEqual(nexProps, prevProps) {
-  return nexProps.item.uri === prevProps.item.uri;
+  return isEqual(nexProps, prevProps);
 }
 
 export const MemoizeSimpleImage = memo(SimpleImage, areEqual);
@@ -37,12 +43,13 @@ export const MemoizeSimpleImage = memo(SimpleImage, areEqual);
 const styles = StyleSheet.create({
   item: {
     alignItems: 'center',
-    marginVertical: 10,
+    margin: 12,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   image: {
     width: screenWidth - 16,
-    height: 200,
-    borderRadius: 10,
+    height: 160,
   },
   absolute: {
     position: 'absolute',

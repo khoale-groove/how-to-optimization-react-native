@@ -12,9 +12,11 @@ import BouncyCheckbox, {
 } from 'react-native-bouncy-checkbox';
 import {DataType, dataTypeValues, useData} from '../../hooks/useData';
 import FastImage from 'react-native-fast-image';
+import {RootStackScreenProps} from '../navigation';
 
-export function ImageConfigScreen() {
-  const navigation = useNavigation();
+export function ImageConfigScreen({
+  navigation,
+}: RootStackScreenProps<'ImageConfigScreen'>) {
   const [selectType, setSelectType] = useState<DataType>(dataTypeValues[0]);
   const data = useData(selectType);
   const [isIntervalUpdate, setIntervalUpdate] = useState(false);
@@ -31,9 +33,9 @@ export function ImageConfigScreen() {
 
   const moveToDemo = useCallback(() => {
     navigation.navigate('ImageDemoScreen', {
-      selectType,
       isIntervalUpdate,
       isMemoize,
+      selectType,
     });
   }, [navigation, selectType, isIntervalUpdate, isMemoize]);
 
@@ -53,7 +55,8 @@ export function ImageConfigScreen() {
           data={staticCheckBoxes}
           style={{flexDirection: 'column'}}
           onChange={(selectedItem: ICheckboxButton) => {
-            setSelectType(selectedItem.text);
+            const text = selectedItem.text as DataType;
+            setSelectType(text);
           }}
         />
         <View style={{marginTop: 30}}>
@@ -109,7 +112,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const staticCheckBoxes: ICheckboxButton[] = [
+interface CheckboxButton extends IBouncyCheckboxProps {
+  text: DataType;
+  id: number;
+}
+
+const staticCheckBoxes: CheckboxButton[] = [
   {
     id: 0,
     text: dataTypeValues[0],

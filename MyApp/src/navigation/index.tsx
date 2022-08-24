@@ -1,10 +1,37 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeScreen, ImageConfigScreen, ImageDemoScreen} from '../screens';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import {
+  HomeScreen,
+  ImageConfigScreen,
+  ImageDemoScreen,
+  FlatlistScreen,
+} from '../screens';
 import {colors} from '../configs';
+import {DataType} from '../../hooks/useData';
 
-const Stack = createNativeStackNavigator();
+type ImageDemoParamsList = {
+  selectType: DataType;
+  isIntervalUpdate: boolean;
+  isMemoize: boolean;
+};
+
+export type RootParamList = {
+  HomeScreen: undefined;
+  FlatlistScreen: undefined;
+  ImageConfigScreen: undefined;
+  ImageDemoScreen: ImageDemoParamsList | undefined;
+};
+export type RootStackScreenProps<Screen extends keyof RootParamList> =
+  NativeStackScreenProps<RootParamList, Screen>;
+
+const Stack = createNativeStackNavigator<RootParamList>();
 
 export default function MyStack() {
   return (
@@ -35,6 +62,13 @@ export default function MyStack() {
           component={ImageDemoScreen}
           options={{
             title: 'List Images',
+          }}
+        />
+        <Stack.Screen
+          name="FlatlistScreen"
+          component={FlatlistScreen}
+          options={{
+            title: 'Flatlist',
           }}
         />
       </Stack.Navigator>

@@ -16,13 +16,13 @@ import {
 } from '../components';
 import {useData} from '../../hooks/useData';
 import {useEffect} from 'react';
+import {RootStackScreenProps} from '../navigation';
 
-export function ImageDemoScreen() {
-  // const navigation = useNavigation();
+export function ImageDemoScreen({
+  route,
+}: RootStackScreenProps<'ImageDemoScreen'>) {
   const [countEffect, setCountEffect] = useState(0);
-  const {
-    params: {selectType, isIntervalUpdate, isMemoize},
-  } = useRoute();
+  const {isIntervalUpdate, isMemoize, selectType} = route.params || {};
   const data = useData(selectType);
 
   const ListItem = isMemoize ? MemoizeSimpleImage : SimpleImage;
@@ -59,6 +59,7 @@ export function ImageDemoScreen() {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         initialNumToRender={5}
+        ItemSeparatorComponent={() => <View style={styles.divider} />}
       />
     </View>
   );
@@ -68,5 +69,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors['blue-900'],
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.amber,
   },
 });
