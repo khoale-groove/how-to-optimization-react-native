@@ -1,28 +1,75 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeScreen, ImageScreen, ImageListScreen} from '../screens';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import {
+  HomeScreen,
+  ImageConfigScreen,
+  ImageDemoScreen,
+  FlatlistScreen,
+} from '../screens';
+import {colors} from '../configs';
+import {DataType} from '../../hooks/useData';
 
-const Stack = createNativeStackNavigator();
+type ImageDemoParamsList = {
+  selectType: DataType;
+  isIntervalUpdate: boolean;
+  isMemoize: boolean;
+};
+
+export type RootParamList = {
+  HomeScreen: undefined;
+  FlatlistScreen: undefined;
+  ImageConfigScreen: undefined;
+  ImageDemoScreen: ImageDemoParamsList | undefined;
+};
+export type RootStackScreenProps<Screen extends keyof RootParamList> =
+  NativeStackScreenProps<RootParamList, Screen>;
+
+const Stack = createNativeStackNavigator<RootParamList>();
 
 export default function MyStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator
+        initialRouteName="HomeScreen"
+        screenOptions={{
+          headerTitleStyle: {color: 'white'},
+          headerTintColor: '#FFF',
+          headerStyle: {
+            backgroundColor: colors['blue-900'],
+          },
+        }}>
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="ImageListScreen"
-          component={ImageListScreen}
-          options={{title: 'List Image Items'}}
+          name="ImageConfigScreen"
+          component={ImageConfigScreen}
+          options={{
+            title: 'Image configuaration',
+          }}
         />
         <Stack.Screen
-          name="ImageScreen"
-          component={ImageScreen}
-          options={{title: 'Load and Caching Images'}}
+          name="ImageDemoScreen"
+          component={ImageDemoScreen}
+          options={{
+            title: 'List Images',
+          }}
+        />
+        <Stack.Screen
+          name="FlatlistScreen"
+          component={FlatlistScreen}
+          options={{
+            title: 'Flatlist',
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

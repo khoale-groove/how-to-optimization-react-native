@@ -1,18 +1,26 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {colors} from '../configs';
 import {SimpleButton} from '../components';
+import {RootStackScreenProps} from '../navigation';
 
-export function HomeScreen() {
-  const navigation = useNavigation();
-  const moveToImageScreen = () => navigation.navigate('ImageScreen');
+export function HomeScreen({navigation}: RootStackScreenProps<'HomeScreen'>) {
+  const moveToFlatlistScreen = useCallback(() => {
+    navigation.navigate('FlatlistScreen');
+  }, [navigation]);
+  const moveToImageConfigScreen = useCallback(() => {
+    navigation.navigate('ImageConfigScreen');
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
       <SimpleButton
-        title="How to optimize loading image"
-        onPress={moveToImageScreen}
+        title="optimize display image"
+        onPress={moveToImageConfigScreen}
+      />
+      <SimpleButton
+        title="optimize large list"
+        onPress={moveToFlatlistScreen}
       />
     </View>
   );
@@ -22,17 +30,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 100,
-  },
-  button: {
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 8,
-  },
-  text: {
-    color: 'white',
-    fontSize: 22,
-    fontWeight: '600',
+    justifyContent: 'center',
+    backgroundColor: colors['blue-900'],
   },
 });

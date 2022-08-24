@@ -1,34 +1,110 @@
-import React, {useCallback, useMemo} from 'react';
-import {View, FlatList} from 'react-native';
-import {classnames as cn} from 'utilstyle-react-native';
-import {useData} from '../../hooks/useData';
-import FastImage from 'react-native-fast-image';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
+import {colors} from '../configs';
+import {MemoizeSimpleImage, SimpleButton} from '../components';
+import {RootStackScreenProps} from '../navigation';
+import {useInfiniteData} from '../../hooks/useData';
+import {Modalize, useModalize} from 'react-native-modalize';
+import {ModalContent} from './ModalContent';
 
-export function FlatlistScreen() {
-  const data = useData();
+const {height: screenHeight} = Dimensions.get('screen');
+
+export function FlatlistScreen({
+  navigation,
+}: RootStackScreenProps<'FlatlistScreen'>) {
+  // modal
+  const {ref: modalRef, open, close} = useModalize();
+  const [flatlistConfig, setflatlistConfig] = useState({
+    removeClippedSubviews: false,
+    maxToRenderPerBatch: 10,
+    updateCellsBatchingPeriod: 50,
+    windowSize: 21,
+    initialNumToRender: 10,
+  });
+
+  // list
+  const [showRender, setShowRender] = useState(false);
+  const [pageSize, setPageSize] = useState(10);
+  const {data, fetchData, loading, resetData} = useInfiniteData(
+    'medium',
+    pageSize,
+  );
   const dataList = useMemo(
-    () => data.map((i, index) => ({id: i, uri: i})),
+    () =>
+      [...data].map((i, ix) => ({
+        id: ix.toString(),
+        uri: i,
+      })),
     [data],
   );
-  const renderItem = useCallback(({item}) => {
-    return (
-      <View style={[cn('px-6', 'py-3', 'border-2', 'border-amber')]}>
-        <FastImage
-          source={{uri: item.uri}}
-          style={[
-            cn('shadow-lg', 'rounded-xl', 'w-full'),
-            {width: 320, minHeight: 160},
-          ]}
-        />
-      </View>
-    );
-  }, []);
+
+  const renderItem: ListRenderItem<typeof dataList[0]> = useCallback(
+    ({item}) => <MemoizeSimpleImage item={item} showRender={showRender} />,
+    [showRender],
+  );
+  const keyExtractor = useCallback((item: typeof dataList[0]) => item.id, []);
 
   return (
-    <FlatList
-      data={dataList}
-      keyExtractor={item => item.id.toString()}
-      renderItem={renderItem}
-    />
+    <View style={styles.container}>
+      <SimpleButton title="Open Setting" onPress={open} />
+      <FlatList
+        data={dataList}
+        indicatorStyle="white"
+        renderItem={renderItem}
+        contentContainerStyle={styles.contentList}
+        keyExtractor={keyExtractor}
+        ItemSeparatorComponent={() => <View style={styles.divider} />}
+        onEndReachedThreshold={0.3}
+        onEndReached={fetchData}
+        ListFooterComponent={() => (
+          <View>{loading && <ActivityIndicator size={'small'} />}</View>
+        )}
+        {...flatlistConfig}
+      />
+      <Modalize
+        ref={modalRef}
+        snapPoint={screenHeight * 0.7}
+        modalStyle={[styles.container, {padding: 16, paddingTop: 30}]}>
+        <ModalContent
+          closeModal={close}
+          onConfirm={values => {
+            setflatlistConfig(values);
+            resetData();
+          }}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          setShowRender={setShowRender}
+          showRender={showRender}
+          defaultConfig={flatlistConfig}
+        />
+      </Modalize>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // paddingTop: 50,
+    backgroundColor: colors['blue-900'],
+  },
+  contentList: {
+    paddingBottom: 30,
+  },
+  divider: {
+    height: 1,
+    width: '100%',
+    backgroundColor: colors.amber,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+});
