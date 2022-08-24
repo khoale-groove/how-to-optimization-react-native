@@ -85,6 +85,43 @@ function ProfileListScreen() {
 
 - Sentry
 
+### 1.7. CallBack Hell
+
+ Callback hell also known as pyramid of doom, hadouken is a way to code suboptimal
+ 
+ For example
+ ```
+ fs.readdir(source, function (err, files) {
+  if (err) {
+    console.log('Error finding files: ' + err)
+  } else {
+    files.forEach(function (filename, fileIndex) {
+      console.log(filename)
+      gm(source + filename).size(function (err, values) {
+        if (err) {
+          console.log('Error identifying file size: ' + err)
+        } else {
+          console.log(filename + ' : ' + values)
+          aspect = (values.width / values.height)
+          widths.forEach(function (width, widthIndex) {
+            height = Math.round(width / aspect)
+            console.log('resizing ' + filename + 'to ' + height + 'x' + height)
+            this.resize(width, height).write(dest + 'w' + width + '_' + filename, function(err) {
+              if (err) console.log('Error writing file: ' + err)
+            })
+          }.bind(this))
+        }
+      })
+    })
+  }
+})
+ ```
+* How do I fix callback hell?
+- Keep your code shallow
+- Modularize
+- Handle every single error
+
+
 ### 2. Memoize expensive computations with React Hooks
 
 #### 2.1. useMemo
