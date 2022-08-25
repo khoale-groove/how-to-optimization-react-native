@@ -223,7 +223,7 @@ Highly recommending to use [react-native-fast-image](https://github.com/DylanVan
 
  `onRefresh` will be called when pulling the list.
 
-#### 4.3. Content loader
+#### 4.2. Content loader
 
 To feel UI smoothly, we should create a loader component or a progressive image before load a component completely.
 
@@ -231,7 +231,7 @@ To feel UI smoothly, we should create a loader component or a progressive image 
 
 refs: https://skeletonreact.com/
 
-#### 4.4. Optimizing Flatlist Configuration
+#### 4.3. Optimizing Flatlist Configuration
 
 refs: https://reactnative.dev/docs/optimizing-flatlist-configuration
 
@@ -307,11 +307,9 @@ function UncontrolledInputs() {
 
 Consider to you [react-hook-form](https://react-hook-form.com/) if the screen has more than 2 TextInput.
 
-#### 7. Redux
+### 7. Other configuration
 
-### 8. Other configuration
-
-#### 8.1. Using Hermes
+#### 7.1. Using Hermes
 
 Hermes is an open-source JavaScript engine optimized for React Native. Enabling Hermes will result in
 
